@@ -1,0 +1,38 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon  index.js ",
+    "test": "cross-env NODE_ENV=development mocha  --exit --recursive ",
+    "coverage": "nyc --reporter html  npm run test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^3.2.4",
+    "axios": "^0.27.2",
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.6",
+    "cookie-session": "^2.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "express-session": "^1.17.2",
+    "express-validator": "^6.13.0",
+    "http-errors": "^2.0.0",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.3",
+    "nodemailer": "^6.7.0",
+    "passport": "^0.5.0",
+    "passport-local": "^1.0.0",
+    "password": "^0.1.1",
+    "pg": "^8.7.3",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.21.0"
+  }
+}
