@@ -8,16 +8,15 @@ const AuthProvider = ({ children }) => {
   const [ısAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    // Axios.get(`/api/auth`, { withCredentials: true }).then((res) => {
-    //   if (res.data.isAuthInfo) {
-    //     setUser(res.data.data);
-    //     setIsAuthenticated(res.data.isAuthInfo);
-    //   } else {
-    //     setUser("");
-    //     setIsAuthenticated(res.data.isAuthInfo);
-    //   }
-    // });
-    console.log("clıastıcontext");
+    Axios.get(`/api/auth`, { withCredentials: true }).then((res) => {
+      if (res.data.isAuthInfo) {
+        setUser(res.data.data);
+        setIsAuthenticated(res.data.isAuthInfo);
+      } else {
+        setUser("");
+        setIsAuthenticated(res.data.isAuthInfo);
+      }
+    });
   }, []);
 
   return (

@@ -58,6 +58,7 @@ const Register = (props) => {
   const onSubmit = async (data) => {
     try {
       const registerVal = await axios.post("/api/register", data);
+
       if (registerVal.data) {
         setMessage(registerVal.data.message);
         handleClicks();
@@ -68,7 +69,7 @@ const Register = (props) => {
       resetField("pass");
       resetField("confirmPass");
     } catch (err) {
-      console.log(err + "hatalı");
+      console.log(err.message);
     }
   };
 

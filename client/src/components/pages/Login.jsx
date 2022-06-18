@@ -1,8 +1,10 @@
 import React, { useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SimpleSnackbar from "./Alert";
+
 import { AuthContext } from "./../Context";
 import * as yup from "yup";
+
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -11,12 +13,12 @@ import axios from "axios";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 
-const Login = (props) => {
+const Login = () => {
   const authContext = useContext(AuthContext);
 
   const [message, setMessage] = useState("");
   const [opens, setOpens] = useState(false);
-
+  const navigate = useNavigate();
   const handleClicks = (data) => {
     setOpens(true);
   };
@@ -61,20 +63,15 @@ const Login = (props) => {
       const login = await axios.post("/api/login", data, {
         withCredentials: true,
       });
+      authContext.setUser(login.data.user);
+      authContext.setIsAuthenticated(!authContext.ısAuthenticated);
+      navigate("/");
 
-      if (login.status === 200 && login.data.isAuthenticated === true) {
-        authContext.setUser(login.data.user);
-        authContext.setIsAuthenticated(!authContext.ısAuthenticated);
-        props.history.push("/");
-      } else {
-        handleClicks();
-        setMessage(login.data.message);
-
-        resetField("Email");
-        resetField("password");
-      }
-    } catch (err) {
-      console.log(err);
+      resetField("Email");
+      resetField("password");
+    } catch (resp) {
+      handleClicks();
+      setMessage(resp.response.data.message);
     }
   };
 

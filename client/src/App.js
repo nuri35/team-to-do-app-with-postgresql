@@ -13,6 +13,7 @@ import { AuthContext } from "./components/Context";
 import { makeStyles } from "@material-ui/core/styles";
 import Login from "./components/pages/Login";
 import Register from "./components/pages/Register";
+import Home from "./components/pages/Home";
 
 const useStyle = makeStyles((theme) => ({
   root: {
@@ -43,6 +44,12 @@ function App() {
               <Grid item xs={12}>
                 <Router>
                   <Routes>
+                    <Route
+                      path="/"
+                      element={
+                        ısAuthenticated ? <Home /> : <Navigate to="/login" />
+                      }
+                    />
                     <Route
                       path="/login"
                       element={
