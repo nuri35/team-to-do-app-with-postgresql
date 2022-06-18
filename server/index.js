@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 require("dotenv").config();
-const mainDb = require("./src/database/database");
+
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const session = require("express-session");
@@ -32,9 +32,9 @@ app.use(cookieParser());
 app.use(bodyParser.json({ limit: "50mb", extended: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-// app.use("/api", require("./src/router/blogRouter"));
 
-mainDb();
+app.use("/api", require("./src/router/userRouter"));
+
 const server = app.listen(process.env.PORT, () => {
   console.log("bu port dınlenıyor: " + process.env.PORT);
 });
