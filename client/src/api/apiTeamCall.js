@@ -1,0 +1,11 @@
+import axios from "axios";
+
+export const createDataAPI = async (msg) => {
+  const res = await axios.post(`/api/teams`, msg, { withCredentials: true });
+  return res;
+};
+
+export const getDataAPI = async () => {
+  const res = await axios.get(`/api/teams`, { withCredentials: true });
+  return res;
+};

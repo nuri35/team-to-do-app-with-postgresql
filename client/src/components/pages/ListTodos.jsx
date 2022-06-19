@@ -1,5 +1,5 @@
-import React, { useEffect, useContext, useState } from "react";
-import { AuthContext } from "./../Context";
+import React, { useEffect, useState } from "react";
+
 import SimpleSnackbar from "./Alert";
 import { Grid } from "@material-ui/core";
 import Todo from "./Todo";
@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchTodos } from "./../../redux/actions/todo";
 
 const ListTodos = () => {
-  const { user } = useContext(AuthContext);
   const { todo } = useSelector((state) => state);
   const { todos, deleteTodosError } = todo;
 
@@ -29,7 +28,7 @@ const ListTodos = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchTodos());
-  }, [user.id, dispatch]);
+  }, [dispatch]);
 
   useEffect(() => {
     if (deleteTodosError) {
