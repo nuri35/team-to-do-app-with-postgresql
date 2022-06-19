@@ -20,6 +20,7 @@ db.sequelize = sequelize;
 
 db.users = require("./../models/User")(sequelize, DataTypes);
 db.todo = require("./../models/todo")(sequelize, DataTypes);
+db.team = require("./../models/team")(sequelize, DataTypes);
 
 db.sequelize
   .sync({ force: false })

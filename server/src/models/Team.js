@@ -1,16 +1,34 @@
-const { DataTypes } = require("sequelize");
+module.exports = (sequelize, DataTypes) => {
+  const Team = sequelize.define(
+    "Team",
+    {
+      teamName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
 
-const { Sequelize } = require("./../database/database");
+      admin: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      userId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+    },
 
-const Team = Sequelize.define("team", {
-  id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true,
-  },
-  name: {
-    type: DataTypes.STRING,
-  },
-});
+    {}
+  );
+  Team.associate = (models) => {
+    Team.belongsTo(models.User, {
+      as: "user",
+      foreignKey: "admin",
+    });
 
-module.exports = Team;
+    Team.belongsTo(models.User, {
+      as: "user",
+      foreignKey: "userId",
+    });
+  };
+  return Team;
+};

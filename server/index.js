@@ -38,7 +38,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/api", require("./src/router/todoRouter"));
 app.use("/api", require("./src/router/userRouter"));
-
+app.use("/api", require("./src/router/teamRouter"));
 const server = app.listen(process.env.PORT, () => {
   console.log("bu port dınlenıyor: " + process.env.PORT);
 });
