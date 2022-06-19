@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import "antd/dist/antd.css";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { AuthContext } from "./../Context";
@@ -99,11 +100,10 @@ const Header = () => {
         Yours teams:
       </span>
       {teams.map((team) => (
-        <CheckableTag
-          key={team.id}
-          onClick={() => console.log("claıstı teams etıketler")}
-        >
-          {team.teamName}
+        <CheckableTag key={team.id}>
+          <Link to={`/${team.id}`} style={{ color: "crimson" }}>
+            {team.teamName}
+          </Link>
         </CheckableTag>
       ))}
 
