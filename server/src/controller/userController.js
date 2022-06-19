@@ -2,6 +2,7 @@ const db = require("./../database/database");
 const bcrypt = require("bcrypt");
 const passport = require("passport");
 const User = db.users;
+const Op = require("sequelize").Op;
 
 require("./password")(passport);
 
@@ -60,6 +61,18 @@ const register = async (req, res, next) => {
   }
 };
 
+const allUsers = async (req, res, next) => {
+  try {
+    const dbUsers = await User.findAll({
+      where: { id: { [Op.ne]: req.user.id } },
+    });
+
+    return res.status(200).json(dbUsers);
+  } catch (err) {
+    res.status(500).json({ message: err });
+  }
+};
+
 const logout = (req, res, next) => {
   req.logout();
   req.session.destroy((err) => {
@@ -72,5 +85,6 @@ module.exports = {
   register,
   login,
   logout,
+  allUsers,
   getUserInfo,
 };

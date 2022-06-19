@@ -17,5 +17,7 @@ router.post(
   userController.register
 );
 
+router.get("/users", isOpenSession, userController.allUsers);
+
 router.get("/logout", isOpenSession, userController.logout);
 module.exports = router;

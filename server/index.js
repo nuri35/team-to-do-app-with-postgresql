@@ -39,6 +39,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api", require("./src/router/todoRouter"));
 app.use("/api", require("./src/router/userRouter"));
 app.use("/api", require("./src/router/teamRouter"));
+
+//bu endpointler ıle ılgılı bır şey yoksa 404 hatası mıddleweare yaz buraya
 const server = app.listen(process.env.PORT, () => {
   console.log("bu port dınlenıyor: " + process.env.PORT);
 });

@@ -12,7 +12,6 @@ const create = async (req, res, next) => {
     });
     return res.status(201).json(team);
   } catch (err) {
-    console.log(err);
     res.status(500).json({ message: err });
   }
 };
