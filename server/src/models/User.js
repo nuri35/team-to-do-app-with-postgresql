@@ -28,5 +28,13 @@ module.exports = (sequelize, DataTypes) => {
     { timestamps: true }
   );
 
+  User.associate = (models) => {
+    // associations can be defined here
+    User.hasMany(models.Todo, {
+      as: "todos",
+      foreignKey: "userId",
+    });
+  };
+
   return User;
 };

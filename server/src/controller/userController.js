@@ -37,7 +37,7 @@ const getUserInfo = async (req, res, next) => {
 
 const register = async (req, res, next) => {
   try {
-    const { first, last, email, pass, confirmPass } = req.body;
+    const { first, last, email, pass } = req.body;
 
     const _user = await User.findOne({ where: { email } });
 
@@ -64,7 +64,7 @@ const logout = (req, res, next) => {
   req.logout();
   req.session.destroy((err) => {
     res.clearCookie("connect.sid");
-    res.redirect(process.env.CLİENT_URL);
+    res.redirect(process.env.REDIRECT_URL);
   });
 };
 

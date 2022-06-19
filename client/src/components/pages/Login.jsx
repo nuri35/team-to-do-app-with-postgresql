@@ -14,8 +14,6 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 
 const Login = () => {
-  const authContext = useContext(AuthContext);
-
   const [message, setMessage] = useState("");
   const [opens, setOpens] = useState(false);
   const navigate = useNavigate();
@@ -57,6 +55,8 @@ const Login = () => {
   } = useForm({
     resolver: yupResolver(regSchema),
   });
+
+  const authContext = useContext(AuthContext);
 
   const onSubmit = async (data) => {
     try {

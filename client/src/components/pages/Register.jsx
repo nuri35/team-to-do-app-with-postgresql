@@ -57,7 +57,9 @@ const Register = (props) => {
 
   const onSubmit = async (data) => {
     try {
-      const registerVal = await axios.post("/api/register", data);
+      const registerVal = await axios.post("/api/register", data, {
+        withCredentials: true,
+      });
 
       if (registerVal.data) {
         setMessage(registerVal.data.message);
