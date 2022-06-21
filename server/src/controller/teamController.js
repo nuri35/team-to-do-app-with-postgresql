@@ -1,4 +1,5 @@
 const db = require("./../database/database");
+const { Op } = require("sequelize");
 const Team = db.team;
 const Userteam = db.userteam;
 const User = db.users;
@@ -20,6 +21,8 @@ const create = async (req, res, next) => {
   }
 };
 
+//bırde delete kaldı herkes herkesı sılebılır yarın sabah yaparsın en sonda backend bakarsın gine aççık var mı denersın
+
 const getAll = async (req, res, next) => {
   try {
     const myTeams = await Team.findAll({
@@ -34,19 +37,18 @@ const getAll = async (req, res, next) => {
 
     return res.status(200).json(myTeams);
   } catch (err) {
-    console.log(err);
     res.status(500).json({ message: err });
   }
 };
 
 const addUser = async (req, res, next) => {
-  // 1 kullancı 1 kez gruba eklenır backende kontorol et birde olmayan bir gruba eklenebılır bunuda kontrol et
   const userId = req.body.userId;
   const teamId = req.body.teamId;
   try {
     const result = await Userteam.create({ userId, teamId });
 
     const addedUser = await User.findOne({
+      where: { id: result.userId },
       include: [
         {
           model: Team,
@@ -62,8 +64,19 @@ const addUser = async (req, res, next) => {
   }
 };
 
-const fetchAddedUser = () => {
+const fetchAddedUser = async (req, res, next) => {
   try {
+    const fetchUser = await User.findAll({
+      where: { id: { [Op.ne]: req.user.id } },
+      include: [
+        {
+          model: Team,
+
+          where: { id: req.params.id },
+        },
+      ],
+    });
+    return res.status(200).json(fetchUser);
   } catch (err) {
     res.status(500).json({ message: err });
   }
