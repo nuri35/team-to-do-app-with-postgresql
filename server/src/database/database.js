@@ -20,7 +20,18 @@ db.sequelize = sequelize;
 
 db.users = require("./../models/User")(sequelize, DataTypes);
 db.todo = require("./../models/todo")(sequelize, DataTypes);
-db.team = require("./../models/team")(sequelize, DataTypes);
+db.team = require("./../models/Team")(sequelize, DataTypes);
+db.userteam = require("../models/Userteam")(sequelize, DataTypes);
+
+db.users.belongsToMany(db.team, {
+  through: "userTeam",
+  foreignKey: "userId",
+});
+
+db.team.belongsToMany(db.users, {
+  through: "userTeam",
+  foreignKey: "teamId",
+});
 
 db.sequelize
   .sync({ force: false })

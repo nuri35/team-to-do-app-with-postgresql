@@ -29,19 +29,8 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   User.associate = (models) => {
-    // associations can be defined here
     User.hasMany(models.Todo, {
       as: "todos",
-      foreignKey: "userId",
-    });
-
-    User.hasMany(models.Team, {
-      as: "teams",
-      foreignKey: "admin",
-    });
-
-    User.hasMany(models.Team, {
-      as: "teams",
       foreignKey: "userId",
     });
   };
