@@ -88,7 +88,7 @@ const Header = () => {
         className="site-page-header"
         tags={<Tag color="blue">{firstName + " " + lastName}</Tag>}
         avatar={{
-          src: "https://avatars1.githubusercontent.com/u/8186664?s=460&v=4",
+          src: "https://media-exp1.licdn.com/dms/image/C560BAQE-g31FdxhrHQ/company-logo_200_200/0/1601902210554?e=2147483647&v=beta&t=NJ81dByDUtl4pmv60oeItgLUtZx605YfgjhomhDbT_g",
         }}
       ></PageHeader>
 

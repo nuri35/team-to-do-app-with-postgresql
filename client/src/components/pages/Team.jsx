@@ -7,16 +7,20 @@ import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import axios from "axios";
+import { addUserToTeam } from "./../../redux/actions/team";
+
 const { CheckableTag } = Tag;
 const Team = () => {
-  //   const params = useParams();
-  const { currentTeam } = useSelector((state) => state);
+  const params = useParams();
+  const { team } = useSelector((state) => state);
+  const { users } = team;
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [dbUsers, setDbUsers] = useState([]);
-  //   const dispatch = useDispatch();
+
+  const dispatch = useDispatch();
 
   //   useEffect(() => {
-  //     // dispatch(fetchSinglePost(params.id));
+  //     dispatch(fetchTeam(params.id));
   //   }, [dispatch, params.id]);
 
   useEffect(() => {
@@ -43,6 +47,15 @@ const Team = () => {
   const handleCancel = () => {
     setIsModalVisible(false);
   };
+
+  const addUserToTeamFn = (user) => {
+    const data = {
+      userId: user.id,
+      teamId: params.id,
+    };
+    dispatch(addUserToTeam(data));
+  };
+
   return (
     <div className="container">
       <IconButton
@@ -54,11 +67,10 @@ const Team = () => {
         <PersonAddAltIcon />
       </IconButton>
       <PageHeader
-        title="Etecube"
         className="site-page-header"
         tags={<Tag color="blue">Developer Team</Tag>}
         avatar={{
-          src: "https://avatars1.githubusercontent.com/u/8156664?s=460&v=4",
+          src: "https://media-exp1.licdn.com/dms/image/C560BAQE-g31FdxhrHQ/company-logo_200_200/0/1601902210554?e=2147483647&v=beta&t=NJ81dByDUtl4pmv60oeItgLUtZx605YfgjhomhDbT_g",
         }}
       ></PageHeader>
       <span
@@ -68,18 +80,12 @@ const Team = () => {
       >
         Developer's team User:
       </span>
-      <CheckableTag>
-        <DeleteOutlineOutlinedIcon />
-        Şermin
-      </CheckableTag>
-      <CheckableTag>
-        <DeleteOutlineOutlinedIcon />
-        hasan
-      </CheckableTag>
-      <CheckableTag>
-        <DeleteOutlineOutlinedIcon />
-        deniz
-      </CheckableTag>
+      {users.map((user) => (
+        <CheckableTag>
+          <DeleteOutlineOutlinedIcon />
+          {user.firstName}
+        </CheckableTag>
+      ))}
 
       <Modal
         title="Please add user"
@@ -88,7 +94,7 @@ const Team = () => {
         onCancel={handleCancel}
       >
         {dbUsers.map((user) => (
-          <CheckableTag key={user.id}>
+          <CheckableTag key={user.id} onClick={() => addUserToTeamFn(user)}>
             <AddOutlinedIcon />
             {user.firstName}
           </CheckableTag>
