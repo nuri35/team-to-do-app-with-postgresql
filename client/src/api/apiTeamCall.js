@@ -16,3 +16,10 @@ export const addDataToTeamAPI = async (msg) => {
   });
   return res;
 };
+
+export const fetchAddedUserAPI = async (msg) => {
+  const res = await axios.get(`/api/fetchAddedUser/${msg}`, msg, {
+    withCredentials: true,
+  });
+  return res;
+};

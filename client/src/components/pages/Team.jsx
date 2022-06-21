@@ -7,21 +7,37 @@ import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import axios from "axios";
-import { addUserToTeam } from "./../../redux/actions/team";
+import { addUserToTeam, fetchAddedToUser } from "./../../redux/actions/team";
+import SimpleSnackbar from "./Alert";
 
 const { CheckableTag } = Tag;
 const Team = () => {
   const params = useParams();
   const { team } = useSelector((state) => state);
-  const { users } = team;
+  const { users, addUserToTeamError } = team;
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [dbUsers, setDbUsers] = useState([]);
 
   const dispatch = useDispatch();
 
-  //   useEffect(() => {
-  //     dispatch(fetchTeam(params.id));
-  //   }, [dispatch, params.id]);
+  const [message, setMessage] = useState("");
+  const [opens, setOpens] = useState(false);
+
+  const handleClicks = (data) => {
+    setOpens(true);
+  };
+
+  const handleCloses = (reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpens(false);
+  };
+
+  useEffect(() => {
+    dispatch(fetchAddedToUser(params.id));
+  }, [dispatch, params.id]);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -56,6 +72,13 @@ const Team = () => {
     dispatch(addUserToTeam(data));
   };
 
+  useEffect(() => {
+    if (addUserToTeamError) {
+      handleClicks();
+      setMessage("Opps Sorry");
+    }
+  }, [addUserToTeamError]);
+
   return (
     <div className="container">
       <IconButton
@@ -68,7 +91,7 @@ const Team = () => {
       </IconButton>
       <PageHeader
         className="site-page-header"
-        tags={<Tag color="blue">Developer Team</Tag>}
+        tags={<Tag color="blue">Team</Tag>}
         avatar={{
           src: "https://media-exp1.licdn.com/dms/image/C560BAQE-g31FdxhrHQ/company-logo_200_200/0/1601902210554?e=2147483647&v=beta&t=NJ81dByDUtl4pmv60oeItgLUtZx605YfgjhomhDbT_g",
         }}
@@ -78,7 +101,7 @@ const Team = () => {
           marginRight: 8,
         }}
       >
-        Developer's team User:
+        team User:
       </span>
       {users.map((user) => (
         <CheckableTag>
@@ -100,6 +123,11 @@ const Team = () => {
           </CheckableTag>
         ))}
       </Modal>
+      <SimpleSnackbar
+        opens={opens}
+        handleCloses={handleCloses}
+        message={message}
+      />
     </div>
   );
 };
