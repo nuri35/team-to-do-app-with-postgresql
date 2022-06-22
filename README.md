@@ -5,6 +5,14 @@
 ## Table of Contents
 
 - [team-to-do-app-with-postgresql](#team-to-do-app-with-postgresql)
+  - [Table of Contents](#table-of-contents)
+  - [General Information](#general-information)
+  - [Technologies Used](#technologies-used)
+  - [Features](#features)
+  - [Screenshots](#screenshots)
+  - [Setup](#setup)
+  - [Setup sequelize database](#setup-sequelize-database)
+  - [Contact](#contact)
 
   - [Table of Contents](#table-of-contents)
   - [General Information](#general-information)
@@ -38,7 +46,11 @@ List the ready features here:
 
 ## Screenshots
 
-![Example screenshot](./images/img.png)
+![Example screenshot](https://github.com/nuri35/team-to-do-app-with-postgresql/blob/master/project%20images/Ekran%20Al%C4%B1nt%C4%B1s%C4%B1.PNG)
+
+![Example screenshot](https://github.com/nuri35/team-to-do-app-with-postgresql/blob/master/project%20images/content.PNG)
+
+![Example screenshot](https://github.com/nuri35/team-to-do-app-with-postgresql/blob/master/project%20images/login.PNG)
 
 ## Setup
 
@@ -47,84 +59,55 @@ npm init -y
 npm install
 ```
 
-## Setup redis database module for redisJSON
-
-- redis is a structure that also works on linux. Open Ubuntu shell
-
-- The following packages are required to successfully build on Ubuntu 20.04:
+## Setup sequelize database
 
 ```sh
-  git clone https://github.com/RedisJSON/RedisJSON.git
+const { Sequelize, DataTypes } = require("sequelize");
+const { DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD } = process.env;
+const sequelize = new Sequelize(
+  `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}`
+);
 
+(async () => {
+  try {
+    await sequelize.authenticate();
+    console.log("Connection has been established successfully.");
+  } catch (error) {
+    console.error("Unable to connect to the database:", error);
+  }
+})();
+
+const db = {};
+
+db.Sequelize = Sequelize;
+db.sequelize = sequelize;
+
+db.users = require("./../models/User")(sequelize, DataTypes);
+db.todo = require("./../models/todo")(sequelize, DataTypes);
+db.team = require("./../models/Team")(sequelize, DataTypes);
+db.userteam = require("../models/Userteam")(sequelize, DataTypes);
+
+db.users.belongsToMany(db.team, {
+  through: "userTeam",
+  foreignKey: "userId",
+});
+
+db.team.belongsToMany(db.users, {
+  through: "userTeam",
+  foreignKey: "teamId",
+});
+
+db.sequelize
+  .sync({ force: false })
+  .then(() => {
+    console.log("yes re-sync done!");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
+module.exports = db;
 ```
-
-```sh
-  cd RedisJSON
-```
-
-```sh
-  sudo apt install build-essential llvm cmake libclang1 libclang-dev cargo
-  cargo build --release
-```
-
-- Requirements:
-
-  - Redis v6.0 or above
-
-- you can have Redis load the module using the following command line argument syntax:
-
-```sh
- redis-server --loadmodule ./target/release/librejson.so
-```
-
-- check that it is loaded
-
-```sh
- 127.0.0.1:6379> JSON.SET num $ 0
-OK
-127.0.0.1:6379> JSON.NUMINCRBY num $ 1
-"[1]"
-127.0.0.1:6379> JSON.NUMINCRBY num $ 1.5
-"[2.5]"
-127.0.0.1:6379> JSON.NUMINCRBY num $ -0.75
-"[1.75]"
-127.0.0.1:6379> JSON.NUMMULTBY num $ 24
-"[42]"
-```
-
-## Usage
-
-```sh
- const { createClient } =  require('redis');
-
-const client = createClient();
-
-
-  router.get("/redis/list", async (req, res) => {
-        try {
-            await client.lPush("user112", ["arda", "sıla", "kerem"])
-            await client.lInsert("user112", "AFTER", "sıla", ["recep"])
-
-            await client.rPush("user112", ["şemşi"])
-            await client.rPop("user112") //delete
-            const value = await client.lRange("user112", 0, -1) //list all
-            const droppedLeft = await client.lPopCount("user112", 2)
-
-            if (droppedLeft) {
-                res.status(200).json({ message: `silinen değerler ${droppedLeft}` })
-            } else {
-                res.status(200).json({ message: `silinen değerler yok ` })
-            }
-        } catch (err) {
-
-            res.status(500).json({ message: err.message })
-        }
-    })
-```
-
-## SetupCaching
-
-## UsageCaching
 
 ## Contact
 
