@@ -38,7 +38,7 @@ const getUserInfo = async (req, res, next) => {
 
 const register = async (req, res, next) => {
   try {
-    const { first, last, email, pass } = req.body;
+    const { first, last, email, pass, role } = req.body;
 
     const _user = await User.findOne({ where: { email } });
 
@@ -48,11 +48,16 @@ const register = async (req, res, next) => {
         .json({ message: "User already exist. Please login!!" });
     }
 
+    if (!["0", "1"].includes(role)) {
+      return res.status(400).json({ message: "Wrong choice" });
+    }
+
     const newUser = await new User();
     (newUser.email = email),
       (newUser.firstName = first),
       (newUser.lastName = last),
-      (newUser.password = await bcrypt.hash(pass, 10));
+      (newUser.password = await bcrypt.hash(pass, 10)),
+      (newUser.role = role);
     const savedUser = await newUser.save();
 
     if (savedUser) res.status(201).json({ message: "Thanks for registering" });

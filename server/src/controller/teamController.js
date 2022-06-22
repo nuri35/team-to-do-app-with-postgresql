@@ -6,6 +6,11 @@ const User = db.users;
 
 const create = async (req, res, next) => {
   try {
+    if (req.user.role !== 1) {
+      return res.status(400).json({
+        message: "Only admins can create teams, add and delete users",
+      });
+    }
     const { teamName } = req.body;
     const team = await Team.create({
       teamName,
@@ -45,6 +50,11 @@ const addUser = async (req, res, next) => {
   const userId = req.body.userId;
   const teamId = req.body.teamId;
   try {
+    if (req.user.role !== 1) {
+      return res.status(400).json({
+        message: "Only admins can create teams, add and delete users",
+      });
+    }
     const result = await Userteam.create({ userId, teamId });
 
     const addedUser = await User.findOne({
