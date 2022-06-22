@@ -20,7 +20,7 @@ const Header = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [description, setDescription] = useState("");
   const { team } = useSelector((state) => state);
-  const { teams } = team;
+  const { teams, createTeamError } = team;
   const dispatch = useDispatch();
   const [message, setMessage] = useState("");
   const [opens, setOpens] = useState(false);
@@ -60,6 +60,13 @@ const Header = () => {
   useEffect(() => {
     dispatch(fetchTeams());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (createTeamError) {
+      handleClicks();
+      setMessage("Only admins can create teams, add and delete users");
+    }
+  }, [createTeamError]);
 
   const logoutHandle = async () => {
     window.open("/api/logout", "_self");

@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import SimpleSnackbar from "./Alert";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 
+import InputLabel from "@mui/material/InputLabel";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
@@ -30,6 +34,11 @@ const regSchema = yup
   })
   .required();
 const Register = (props) => {
+  const [role, setRole] = React.useState("");
+
+  const handleChange = (event) => {
+    setRole(event.target.value);
+  };
   const [message, setMessage] = useState("");
   const [opens, setOpens] = useState(false);
 
@@ -57,19 +66,25 @@ const Register = (props) => {
 
   const onSubmit = async (data) => {
     try {
-      const registerVal = await axios.post("/api/register", data, {
-        withCredentials: true,
-      });
+      if (role !== "") {
+        data.role = role;
+        const registerVal = await axios.post("/api/register", data, {
+          withCredentials: true,
+        });
 
-      if (registerVal.data) {
-        setMessage(registerVal.data.message);
+        if (registerVal.data) {
+          setMessage(registerVal.data.message);
+          handleClicks();
+        }
+        resetField("first");
+        resetField("last");
+        resetField("email");
+        resetField("pass");
+        resetField("confirmPass");
+      } else {
+        setMessage("Please fill in the blanks");
         handleClicks();
       }
-      resetField("first");
-      resetField("last");
-      resetField("email");
-      resetField("pass");
-      resetField("confirmPass");
     } catch (err) {
       console.log(err.message);
     }
@@ -196,6 +211,21 @@ const Register = (props) => {
             }}
             helperText={errors?.email?.message}
           />
+        </div>
+        <div>
+          <FormControl fullWidth>
+            <InputLabel id="demo-simple-select-label">Role</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={role}
+              label="Role"
+              onChange={handleChange}
+            >
+              <MenuItem value={1}>Admin</MenuItem>
+              <MenuItem value={0}>User</MenuItem>
+            </Select>
+          </FormControl>
         </div>
         <Button simple type="submit" variant="outlined">
           Register

@@ -37,7 +37,7 @@ export const fetchTeams = () => async (dispatch) => {
 export const addUserToTeam = (data) => async (dispatch) => {
   try {
     const res = await addDataToTeamAPI(data);
-    console.log(res.data);
+   
     dispatch({ type: "ADD_USER_TO_TEAM_SUCCESS", payload: res.data });
     return res;
   } catch (err) {
