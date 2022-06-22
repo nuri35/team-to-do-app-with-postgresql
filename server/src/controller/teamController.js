@@ -26,8 +26,6 @@ const create = async (req, res, next) => {
   }
 };
 
-//bırde delete kaldı herkes herkesı sılebılır yarın sabah yaparsın en sonda backend bakarsın gine aççık var mı denersın
-
 const getAll = async (req, res, next) => {
   try {
     const myTeams = await Team.findAll({
@@ -91,10 +89,34 @@ const fetchAddedUser = async (req, res, next) => {
     res.status(500).json({ message: err });
   }
 };
+//backendden admini silerse felan dusunrsun en son bunu bıtırdıkten sonra
+const deleteUserFromTeam = async (req, res, next) => {
+  try {
+    const userId = req.body.userId;
+    const teamId = req.body.teamId;
+
+    if (req.user.role !== 1) {
+      return res.status(400).json({
+        message: "Only admins can create teams, add and delete users",
+      });
+    }
+    const resultDelete = await Userteam.findOne({
+      where: { userId, teamId },
+    });
+    if (!resultDelete) {
+      return res.status(400).json({ error: "Opps Error" });
+    }
+    await resultDelete.destroy();
+    return res.status(200).json(resultDelete);
+  } catch (err) {
+    res.status(500).json({ message: err });
+  }
+};
 
 module.exports = {
   create,
   getAll,
   addUser,
   fetchAddedUser,
+  deleteUserFromTeam,
 };
