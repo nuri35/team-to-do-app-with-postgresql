@@ -46,6 +46,7 @@ const InputTodo = () => {
 
       const value = { title: description };
 
+      value.indexSelected = selectedOption.value;
       dispatch(createTodo(value));
       setDescription("");
     } catch (err) {

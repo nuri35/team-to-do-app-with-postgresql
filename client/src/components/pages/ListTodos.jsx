@@ -6,9 +6,9 @@ import Todo from "./Todo";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchTodos } from "./../../redux/actions/todo";
 
-const ListTodos = () => {
+const ListTodos = (props) => {
   const { todo } = useSelector((state) => state);
-  const { todos, deleteTodosError } = todo;
+  const { todos, deleteTodosError, toTeam } = todo;
 
   const [message, setMessage] = useState("");
   const [opens, setOpens] = useState(false);
@@ -27,8 +27,8 @@ const ListTodos = () => {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchTodos());
-  }, [dispatch]);
+    dispatch(fetchTodos(props.teamId ? props.teamId : 0));
+  }, [dispatch, props.teamId]);
 
   useEffect(() => {
     if (deleteTodosError) {
@@ -36,6 +36,13 @@ const ListTodos = () => {
       setMessage("Oppss error");
     }
   }, [deleteTodosError]);
+
+  useEffect(() => {
+    if (toTeam) {
+      handleClicks();
+      setMessage("Added to Team");
+    }
+  }, [toTeam]);
 
   const renderTodo = (todo) => {
     return <Todo index={todo.id} todo={todo} />;

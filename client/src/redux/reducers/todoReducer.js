@@ -2,16 +2,25 @@ const initialState = {
   createTodoError: false,
   fetchTodosError: false,
   deleteTodosError: false,
+  toTeam: false,
   todos: [],
 };
 
 const todosReducer = (state = initialState, action) => {
   switch (action.type) {
     case "CREATE_TODO_SUCCESS":
-      return {
-        ...state,
-        todos: [action.payload, ...state.todos],
-      };
+      if (!action.payload.toTeam) {
+        return {
+          ...state,
+          todos: [action.payload, ...state.todos],
+        };
+      } else {
+        return {
+          ...state,
+          toTeam: true,
+        };
+      }
+
     case "CREATE_TODO_FAILURE":
       return {
         ...state,

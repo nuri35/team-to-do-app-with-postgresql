@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
+import ListTodos from "./ListTodos";
 import axios from "axios";
 import {
   addUserToTeam,
@@ -140,6 +141,7 @@ const Team = () => {
         handleCloses={handleCloses}
         message={message}
       />
+      <ListTodos teamId={params.id} />
     </div>
   );
 };
