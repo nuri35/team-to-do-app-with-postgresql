@@ -13,9 +13,9 @@ export const createTodo = (todo) => async (dispatch) => {
   }
 };
 
-export const fetchTodos = (id) => async (dispatch) => {
+export const fetchTodos = (id, queryToDoUserId) => async (dispatch) => {
   try {
-    const res = await getDataAPI(id);
+    const res = await getDataAPI(id, queryToDoUserId);
     dispatch({ type: "FETCH_TODOS_SUCCESS", payload: res.data });
     return res;
   } catch (err) {

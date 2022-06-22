@@ -5,8 +5,10 @@ export const createDataAPI = async (msg) => {
   return res;
 };
 
-export const getDataAPI = async (id) => {
-  const res = await axios.get(`/api/todos/${id}`, { withCredentials: true });
+export const getDataAPI = async (id, queryToDoUserId) => {
+  const res = await axios.get(`/api/todos/${id}?search=${queryToDoUserId}`, {
+    withCredentials: true,
+  });
   return res;
 };
 
