@@ -5,9 +5,15 @@ const Todo = db.todo;
 const create = async (req, res, next) => {
   try {
     const userId = req.user.id;
-    const { title } = req.body;
-    const todo = await Todo.create({ title, userId });
-    return res.status(201).json(todo);
+    const { title, indexSelected } = req.body;
+    const teamId = indexSelected;
+    const todo = await Todo.create({ title, userId, teamId });
+
+    return res
+      .status(201)
+      .json(
+        teamId === 0 ? todo : { messageTeam: "Added to team", toTeam: true }
+      );
   } catch (err) {
     res.status(500).json({ message: err });
   }
@@ -15,8 +21,14 @@ const create = async (req, res, next) => {
 
 const getAll = async (req, res, next) => {
   try {
+    if (req.params.id == 0) {
+      const myTodos = await Todo.findAll({
+        where: { userId: req.user.id, teamId: req.params.id },
+      });
+      return res.status(200).json(myTodos);
+    }
     const myTodos = await Todo.findAll({
-      where: { userId: req.user.id },
+      where: { teamId: req.params.id },
     });
     return res.status(200).json(myTodos);
   } catch (err) {
@@ -27,7 +39,7 @@ const getAll = async (req, res, next) => {
 const deletebyId = async (req, res, next) => {
   try {
     const todo = await Todo.findOne({
-      where: { id: req.params.todoId, userId: req.user.id },
+      where: { id: req.params.todoId },
     });
     if (!todo) {
       return res.status(400).json({ error: "Opps Error" });

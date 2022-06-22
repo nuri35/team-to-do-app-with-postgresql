@@ -89,7 +89,7 @@ const fetchAddedUser = async (req, res, next) => {
     res.status(500).json({ message: err });
   }
 };
-//backendden admini silerse felan dusunrsun en son bunu bıtırdıkten sonra
+
 const deleteUserFromTeam = async (req, res, next) => {
   try {
     const userId = req.body.userId;

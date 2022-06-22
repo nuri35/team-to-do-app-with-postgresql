@@ -10,14 +10,21 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
+      teamId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
     },
     {}
   );
   Todo.associate = (models) => {
- 
     Todo.belongsTo(models.User, {
       as: "user",
       foreignKey: "userId",
+    });
+    Todo.belongsTo(models.Team, {
+      as: "team",
+      foreignKey: "teamId",
     });
   };
   return Todo;

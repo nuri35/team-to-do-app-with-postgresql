@@ -48,7 +48,7 @@ const register = async (req, res, next) => {
         .json({ message: "User already exist. Please login!!" });
     }
 
-    if (!["0", "1"].includes(role)) {
+    if (![0, 1].includes(role)) {
       return res.status(400).json({ message: "Wrong choice" });
     }
 
@@ -62,6 +62,7 @@ const register = async (req, res, next) => {
 
     if (savedUser) res.status(201).json({ message: "Thanks for registering" });
   } catch (err) {
+    console.log(err);
     res.status(500).json({ message: err });
   }
 };
