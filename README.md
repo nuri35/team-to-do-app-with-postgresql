@@ -18,6 +18,8 @@
 ## General Information
 
 - In this application, database front end backend and docker issues were handled as a team structure by performing to do crud operations.
+- There are 2 user types in the project, user and admin. People other than the admin cannot add or delete users and create teams. Everything is done through the admin.
+- In addition, each user can make their own special to do list. can delete edit. Finally, the team can prepare, delete, edit and update a to-do list.
 
 ## Technologies Used
 
