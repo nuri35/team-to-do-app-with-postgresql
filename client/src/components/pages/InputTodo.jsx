@@ -53,8 +53,6 @@ const InputTodo = () => {
     }
   };
 
-  console.log(selectedOption);
-
   return (
     <div>
       <form onSubmit={onSubmitForm} style={{ display: "flex" }}>

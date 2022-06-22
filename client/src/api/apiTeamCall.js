@@ -23,3 +23,10 @@ export const fetchAddedUserAPI = async (msg) => {
   });
   return res;
 };
+
+export const deleteUserFromTeamAPI = async (msg) => {
+  const res = await axios.post(`/api/deleteUserFromTeam`, msg, {
+    withCredentials: true,
+  });
+  return res;
+};

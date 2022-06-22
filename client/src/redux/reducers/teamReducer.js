@@ -3,6 +3,7 @@ const initialState = {
   fetchTeamError: false,
   addUserToTeamError: false,
   fetchUserError: false,
+  deleteUserError: false,
 
   teams: [],
   users: [],
@@ -52,6 +53,20 @@ const teamReducer = (state = initialState, action) => {
       return {
         ...state,
         fetchUserError: true,
+      };
+
+    case "DELETE_USER_SUCCESS":
+      const { users } = state;
+
+      const newUsers = users.filter(
+        (user) => user.id !== action.payload.userId
+      );
+      return { ...state, users: newUsers };
+
+    case "DELETE_USER__FAILURE":
+      return {
+        ...state,
+        deleteUserError: true,
       };
 
     default:

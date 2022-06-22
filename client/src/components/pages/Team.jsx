@@ -7,14 +7,18 @@ import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import axios from "axios";
-import { addUserToTeam, fetchAddedToUser } from "./../../redux/actions/team";
+import {
+  addUserToTeam,
+  fetchAddedToUser,
+  deleteUserFromTeam,
+} from "./../../redux/actions/team";
 import SimpleSnackbar from "./Alert";
 
 const { CheckableTag } = Tag;
 const Team = () => {
   const params = useParams();
   const { team } = useSelector((state) => state);
-  const { users, addUserToTeamError } = team;
+  const { users, addUserToTeamError, deleteUserError } = team;
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [dbUsers, setDbUsers] = useState([]);
 
@@ -72,12 +76,20 @@ const Team = () => {
     dispatch(addUserToTeam(data));
   };
 
+  const deleteUserFromTeamFn = (user) => {
+    const data = {
+      userId: user.id,
+      teamId: params.id,
+    };
+    dispatch(deleteUserFromTeam(data));
+  };
+
   useEffect(() => {
-    if (addUserToTeamError) {
+    if (addUserToTeamError || deleteUserError) {
       handleClicks();
-      setMessage("Opps Sorry");
+      setMessage("Opps Sorry wrong choice");
     }
-  }, [addUserToTeamError]);
+  }, [addUserToTeamError, deleteUserError]);
 
   return (
     <div className="container">
@@ -104,7 +116,7 @@ const Team = () => {
         team User:
       </span>
       {users.map((user) => (
-        <CheckableTag>
+        <CheckableTag onClick={() => deleteUserFromTeamFn(user)}>
           <DeleteOutlineOutlinedIcon />
           {user.firstName}
         </CheckableTag>
