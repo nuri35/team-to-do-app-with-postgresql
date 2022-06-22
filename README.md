@@ -4,8 +4,7 @@
 
 ## Table of Contents
 
-- [team-to-do-app-with-postgresql](#team-to-do-app-with-postgresql)
-  - [Table of Contents](#table-of-contents)
+- - [Table of Contents](#table-of-contents)
   - [General Information](#general-information)
   - [Technologies Used](#technologies-used)
   - [Features](#features)
@@ -14,15 +13,7 @@
   - [Setup sequelize database](#setup-sequelize-database)
   - [Contact](#contact)
 
-  - [Table of Contents](#table-of-contents)
-  - [General Information](#general-information)
-  - [Technologies Used](#technologies-used)
-  - [Features](#features)
-  - [Screenshots](#screenshots)
-  - [Setup](#setup)
-  - [Setup redis database module for redisJSON](#setup-redis-database-module-for-redisjson)
-  - [Contact](#contact)
-  <!-- * [License](#license) -->
+   <!-- * [License](#license) -->
 
 ## General Information
 
