@@ -28,7 +28,10 @@ const getAll = async (req, res, next) => {
       return res.status(200).json(myTodos);
     }
     const myTodos = await Todo.findAll({
-      where: { teamId: req.params.id },
+      where:
+        req.query.search !== ""
+          ? { userId: req.query.search, teamId: req.params.id }
+          : { teamId: req.params.id },
     });
     return res.status(200).json(myTodos);
   } catch (err) {
@@ -56,3 +59,7 @@ module.exports = {
   getAll,
   deletebyId,
 };
+
+//edit ve mark kaldı
+//geriye kalan postmande bakarak bakcend dokuman hazırla
+//
