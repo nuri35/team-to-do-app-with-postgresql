@@ -2,6 +2,7 @@ const initialState = {
   createTodoError: false,
   fetchTodosError: false,
   deleteTodosError: false,
+  editTodosError: false,
   toTeam: false,
   todos: [],
 };
@@ -47,6 +48,21 @@ const todosReducer = (state = initialState, action) => {
       return {
         ...state,
         deleteTodosError: true,
+      };
+
+    case "EDIT_TODO_SUCCESS":
+      const newData = state.todos.map((todo) =>
+        todo.id === action.payload.id ? action.payload : todo
+      );
+      return {
+        ...state,
+        todos: newData,
+      };
+
+    case "EDIT_TODO_FAILURE":
+      return {
+        ...state,
+        editTodosError: true,
       };
 
     default:

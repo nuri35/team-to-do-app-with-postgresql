@@ -1,4 +1,9 @@
-import { createDataAPI, getDataAPI, deleteDataAPI } from "./../../api/apiCall";
+import {
+  createDataAPI,
+  getDataAPI,
+  deleteDataAPI,
+  editDataAPI,
+} from "./../../api/apiCall";
 
 export const createTodo = (todo) => async (dispatch) => {
   try {
@@ -36,6 +41,20 @@ export const deleteTodo = (data) => async (dispatch) => {
   } catch (err) {
     return dispatch({
       type: "DELETE_TODO_FAILURE",
+      payload: err,
+    });
+  }
+};
+
+export const editToDo = (data) => async (dispatch) => {
+  try {
+    const res = await editDataAPI(data);
+
+    dispatch({ type: "EDIT_TODO_SUCCESS", payload: res.data });
+    return res;
+  } catch (err) {
+    return dispatch({
+      type: "EDIT_TODO_FAILURE",
       payload: err,
     });
   }

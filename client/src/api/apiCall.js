@@ -18,3 +18,10 @@ export const deleteDataAPI = async (msg) => {
   });
   return res;
 };
+
+export const editDataAPI = async (msg) => {
+  const res = await axios.post(`/api/Updatetodo`, msg, {
+    withCredentials: true,
+  });
+  return res;
+};
