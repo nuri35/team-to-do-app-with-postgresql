@@ -22,7 +22,7 @@
 - In addition, each user can make their own special to do list. can delete edit. Finally, the team can prepare, delete, edit and update a to-do list.
 - Admin = 1
 - User = 0
-- private = 0
+- private todo = 0
 - If the user is making a custom to-do list, the team id will be 0. However, if a team-based to-do list is being prepared, not a special one, the ID of that team will be included in the to-do list table.
 
 ## Technologies Used
