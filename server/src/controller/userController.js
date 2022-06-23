@@ -7,6 +7,7 @@ const Op = require("sequelize").Op;
 require("./password")(passport);
 
 const login = (req, res, next) => {
+  console.log(req.body);
   passport.authenticate("local", (error, user, info) => {
     if (error) {
       return res.status(401).json({

@@ -27,6 +27,7 @@ const getAll = async (req, res, next) => {
       });
       return res.status(200).json(myTodos);
     }
+    console.log(req.query);
     const myTodos = await Todo.findAll({
       where:
         req.query.search !== ""
